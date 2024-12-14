@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link rel="stylesheet" href={% static "styles/register.css" %}>
+
+{% endblock styles %}
+
+
+{% block main %}
+<div class="login-container">
+    <div class="login-box">
+        <h2>Create Your Account</h2>
+        <p class="subtitle">Sign up to start your journey</p>
+        
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <p>Please correct the errors below and try again {{form.errors}}.</p>
+        </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'register' %}" class="registration-form">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group half-width">
+                    <label for="first_name">First Name</label>
+                    <input 
+                        type="text" 
+                        id="first_name" 
+                        name="first_name" 
+                        required 
+                        placeholder="Enter your first name"
+                        pattern="[A-Za-z]+"
+                        title="First name should only contain letters"
+                    >
+                </div>
+                
+                <div class="form-group half-width">
+                    <label for="last_name">Last Name</label>
+                    <input 
+                        type="text" 
+                        id="last_name" 
+                        name="last_name" 
+                        required 
+                        placeholder="Enter your last name"
+                        pattern="[A-Za-z]+"
+                        title="Last name should only contain letters"
+                    >
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    required 
+                    placeholder="you@example.com"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"content
+                    title="Please enter a valid email address"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    required 
+                    placeholder="Choose a unique username"
+                    minlength="4"
+                    maxlength="20"
+                    pattern="[a-zA-Z0-9_]+"
+                    title="Username must be 4-20 characters, using letters, numbers, and underscores"
+                >
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group half-width">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password1" 
+                        required 
+                        placeholder="Create a strong password"
+                        minlength="8"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Password must be at least 8 characters, include uppercase, lowercase, and a number"
+                    >
+                </div>
+                
+                <div class="form-group half-width">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input 
+                        type="password" 
+                        id="confirm_password" 
+                        name="password2" 
+                        required 
+                        placeholder="Repeat your password"
+                        minlength="8"
+                    >
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number (Optional)</label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    placeholder="Enter your phone number"
+                    pattern="[0-9]{10}"
+                    title="Please enter a 10-digit phone number"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="birthdate">Date of Birth</label>
+                <input 
+                    type="date" 
+                    id="birthdate" 
+                    name="birthdate" 
+                    required
+                    max="2010-01-01"
+                    title="You must be at least 13 years old"
+                >
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="terms" 
+                        name="terms" 
+                        required
+                    >
+                    <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="newsletter" 
+                        name="newsletter"
+                    >
+                    <label for="newsletter">Subscribe to our newsletter</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit">Create Account</button>
+            
+            <div class="login-link">
+                <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.registration-form');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+
+    // Password matching validation
+    confirmPassword.addEventListener('input', function() {
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.setCustomValidity('Passwords do not match');
+        } else {
+            confirmPassword.setCustomValidity('');
+        }
+    });
+
+    // Form submission validation
+    form.addEventListener('submit', function(event) {
+        // Additional custom validations can be added here
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+        }
+    });
+});
+</script>
+{% endblock %}

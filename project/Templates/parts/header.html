@@ -1,0 +1,101 @@
+
+
+<header>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo Section -->
+            <div class="navbar-brand">
+                <a href="/" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    <span>ShopSmart</span>
+                </a>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="navbar-search">
+                <input 
+                    type="text" 
+                    placeholder="Search products, brands, and more" 
+                    class="search-input"
+                >
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="navbar-links">
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Categories</a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-column">
+                            <h4>Electronics</h4>
+                            <a href="#">Smartphones</a>
+                            <a href="#">Laptops</a>
+                            <a href="#">Tablets</a>
+                            <a href="#">Accessories</a>
+                        </div>
+                        <div class="dropdown-column">
+                            <h4>Fashion</h4>
+                            <a href="#">Men's Clothing</a>
+                            <a href="#">Women's Clothing</a>
+                            <a href="#">Shoes</a>
+                            <a href="#">Accessories</a>
+                        </div>
+                        <div class="dropdown-column">
+                            <h4>Home & Living</h4>
+                            <a href="#">Furniture</a>
+                            <a href="#">Decor</a>
+                            <a href="#">Kitchen</a>
+                            <a href="#">Bedding</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">Deals</a>
+                <a href="#" class="nav-link">New Arrivals</a>
+                <a href="#" class="nav-link">Brands  </a>
+            </div>
+            
+            <!-- User Actions -->
+            <div class="navbar-actions">
+                <div class="nav-dropdown user-dropdown">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Account</span>
+                    </a>
+                    <div class="dropdown-content">
+                        {% if request.user.id == None %}
+                            <a href="{% url 'login' %}">Login</a>
+                            <a href="{% url 'register' %}">Register</a>
+                        {% else %}
+                            <a href="#" >{{request.user}}</a>
+                            <a href="#">Profile Settings</a>
+                            <a href="#">My Orders</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+
+                <a href="#" class="nav-link wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+
+                <a href="#" class="nav-link cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+
+
+

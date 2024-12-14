@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html >
+
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <title>Home</title> -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500">
+        <link rel="stylesheet" href={% static "styles/style.css" %}>
+        <link rel="stylesheet" href={% static "styles/nav_bar.css" %}>
+        <link rel="stylesheet" href={% static "styles/footer.css" %}>
+
+
+        {% block styles %}
+        {% endblock styles %}
+
+        <script src={% static "scripts/uikit.js" %}></script>
+        <script src={% static "scripts/uikit-icons.js" %}></script>
+        {% block extra_js %}{% endblock extra_js %}
+
+    </head>
+<body>
+    <div class="uk-offcanvas-content">
+        {% include 'parts/header.html' %}
+        {% block main %}
+        {% endblock main %}
+        
+       
+
+        {% include 'parts/footer.html' %}
+    </div>
+    <script src={% static "scripts/script.js"%}></script>
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyClyjCemJi4m2q78gNeGkhlckpdH1hzTYA&amp;callback=initMap" async="" defer=""></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+
+<link rel="stylesheet" href={% static "styles/login.css" %}>
+
+{% endblock styles %}
+
+{% block main %}
+<div class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <p>Your username and password didn't match. Please try again.</p>
+        </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    required 
+                    placeholder="Choose a unique username"
+                    minlength="4"
+                    maxlength="20"
+                    pattern="[a-zA-Z0-9_]+"
+                    title="Username"
+                >
+                {% if form.username.errors %}
+                    <div class="error-message">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="Create a strong password"
+                        minlength="6"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Password must be at least 8 characters, include uppercase, lowercase, and a number"
+                    >
+                {% if form.password.errors %}
+                    <div class="error-message">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Login</button>
+                <a href="{% url 'password_reset' %}" class="forgot-password">Forgot password?</a>
+            </div>
+            
+            <div class="register-link">
+                <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock  %}
+
+
+

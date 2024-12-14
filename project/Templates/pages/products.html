@@ -1,0 +1,197 @@
+{% extends  "base.html" %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href={% static "styles/products.css" %}>
+{% endblock  %}
+
+
+{% block extra_js %}
+<script src={% static "scripts/products.js" %}></script>
+{% endblock extra_js %}
+
+
+{% block main %}
+<div class="products-container">
+    <!-- Sidebar Filters -->
+    <aside class="product-filters">
+        <div class="filter-section">
+            <h3>Categories</h3>
+            <div class="filter-options">
+                {% for c in categorys %}
+                <label class="checkbox-container">
+                    <input type="checkbox" name="category" value="{{c.name}}">
+                    <span class="checkmark"></span>
+                    {{c.name}}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3>Price Range</h3>
+            <div class="price-range-slider">
+                <input type="range" min="0" max="5000" step="100" value="0" class="slider" id="min-price">
+                <input type="range" min="0" max="5000" step="100" value="5000" class="slider" id="max-price">
+                <div class="price-display">
+                    $<span id="min-price-display">0</span> - $<span id="max-price-display">5000</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3>Brands</h3>
+            <div class="filter-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" name="brand" value="apple">
+                    <span class="checkmark"></span>
+                    Apple
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" name="brand" value="samsung">
+                    <span class="checkmark"></span>
+                    Samsung
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" name="brand" value="google">
+                    <span class="checkmark"></span>
+                    Google
+                </label>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3>Ratings</h3>
+            <div class="rating-filter">
+                <label class="rating-container">
+                    <input type="radio" name="rating" value="4">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        & Up
+                    </div>
+                </label>
+                <label class="rating-container">
+                    <input type="radio" name="rating" value="3">
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        & Up
+                    </div>
+                </label>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Product Grid -->
+    <main class="product-grid">
+        <div class="product-header">
+            <h1>Smartphones & Accessories</h1>
+            <div class="sort-options">
+                <label for="sort-select">Sort by:</label>
+                <select id="sort-select">
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="rating">Top Rated</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="products-list">
+            <!-- Product Card Template -->
+            {% comment %} <div class="product-card">
+                <div class="product-badge">New</div>
+                <div class="product-wishlist-icon">
+                    <i class="far fa-heart"></i>
+                </div>
+                <img src="/api/placeholder/300/300" alt="Product Image" class="product-image">
+                <div class="product-details">
+                    <h3 class="product-title">Google Pixel 6 Pro</h3>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span class="rating-count">(124)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">$899.99</span>
+                        <span class="original-price">$1,099.99</span>
+                        <span class="discount-percentage">-18%</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-add-to-cart">Add to Cart</button>
+                        <button class="btn-buy-now">Buy Now</button>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+
+            <!-- Repeat product card 8-12 times for a full grid -->
+            
+            {% for p in products  %}
+            <div class="product-card">
+                {% comment %} <div class="product-badge sale">Sale</div> {% endcomment %}
+                <div class="product-wishlist-icon">
+                    <i class="far fa-heart"></i>
+                </div>
+                <img src="{{p.image.url}}" alt="Product Image" class="product-image">
+                <div class="product-details">
+                    <h3 class="product-title">{{p.name}}</h3>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <span class="rating-count">(89)</span>
+                    </div>
+                    <div class="product-price">
+                        <span class="current-price">${{p.price}}</span>
+                        {% comment %} discounts  {% endcomment %}
+                        {% comment %} <span class="original-price">$899.99</span> {% endcomment %}
+                        {% comment %} <span class="discount-percentage">-22%</span> {% endcomment %}
+                    </div>
+
+                    <div class="product-actions">
+                        <form action="#" method="POST" >
+                            {% csrf_token %}
+                            <input name="interaction" value='cart' type="hidden"> 
+                            <input name="product" value={{p.id}} type="hidden">
+                            <button class="btn-add-to-cart">Add to Cart</button>
+                        </form>
+                    
+                        <form action="#" method="POST" > 
+                            {% csrf_token %}
+                            <input name="interaction" value="purchase" type="hidden"> 
+                            <input name="product" value={{p.id}} type="hidden"> 
+                            <button type='' class="btn-buy-now">Buy Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- More product cards would be repeated here -->
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+{% comment %} 
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">4</button>
+            <button class="page-btn next-btn">Next</button> {% endcomment %}
+        </div>
+    </main>
+</div>
+{% endblock main %}
+
